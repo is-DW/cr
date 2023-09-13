@@ -1,3 +1,7 @@
+#[allow(unused)]
+#[allow(clippy::upper_case_acronyms)]
+pub mod alt;
+
 #[derive(Copy, Clone, Debug, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct RGB<T> {
     /// Red

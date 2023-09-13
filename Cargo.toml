@@ -3,6 +3,13 @@ name = "cr"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+argb = []
+grb = []
+
+[package.metadata.docs.rs]
+all-features = true
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
