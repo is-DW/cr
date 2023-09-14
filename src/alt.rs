@@ -186,8 +186,18 @@ impl<T, TA> GrayAlpha<T, TA> {
     }
 
     /// Provide a mutable view of only `Gray` component (leaving out alpha).
+    /// ```rust
+    /// use cr::alt::GrayAlpha;
+    ///
+    /// let mut a = GrayAlpha::new(1, 1);
+    ///
+    /// let mut b = a.gray_mut();
+    ///
+    /// assert_eq!(b.0, 1);
+    /// ```
     #[inline(always)]
     pub fn gray_mut(&mut self) -> &mut Gray<T> {
+        // unsafe { &mut *(self as *mut GrayAlpha<T, TA> as *mut Gray<T>) }
         unsafe { &mut *(self as *mut _ as *mut _) }
     }
 }
@@ -332,4 +342,16 @@ impl<T: Copy> From<Gray<T>> for GrayAlpha<T, u16> {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+    use crate::alt::GrayAlpha;
+
+    #[test]
+    fn t() {
+        let mut a = GrayAlpha::new(1, 1);
+        let b = a.gray_mut();
+
+        b.0 = 12;
+
+        assert_eq!(b.0, 12);
+    }
+}
