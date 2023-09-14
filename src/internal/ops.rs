@@ -31,7 +31,8 @@ macro_rules! impl_struct_ops_opaque {
         }
 
         /// `px + px`
-        impl<T> AddAssign for $ty<T> where
+        impl<T> AddAssign for $ty<T>
+        where
             T: Add<Output = T> + Copy
         {
             #[inline(always)]
@@ -59,7 +60,8 @@ macro_rules! impl_struct_ops_opaque {
         }
 
         /// `px * px`
-        impl<T> MulAssign for $ty<T> where
+        impl<T> MulAssign for $ty<T>
+        where
             T: Mul<Output = T> + Copy
         {
             #[inline(always)]
@@ -87,7 +89,8 @@ macro_rules! impl_struct_ops_opaque {
         }
 
         /// `px - px`
-        impl<T> SubAssign for $ty<T> where
+        impl<T> SubAssign for $ty<T>
+        where
             T: Sub<Output = T> + Copy
         {
             #[inline(always)]
@@ -100,7 +103,10 @@ macro_rules! impl_struct_ops_opaque {
             }
         }
 
-        impl<T> Sum<$ty<T>> for $ty<T> where T: Default + Add<Output=T> {
+        impl<T> Sum<$ty<T>> for $ty<T>
+        where
+            T: Default + Add<Output=T>
+        {
             #[inline(always)]
             fn sum<I: Iterator<Item=Self>>(iter: I) -> Self {
                 iter.fold($ty::default(), Add::add)
@@ -126,7 +132,8 @@ macro_rules! impl_struct_ops_alpha {
         }
 
         /// `px + px`
-        impl<T, A> AddAssign for $ty<T, A> where
+        impl<T, A> AddAssign for $ty<T, A>
+        where
             T: Add<Output = T> + Copy,
             A: Add<Output = A> + Copy
         {
@@ -155,7 +162,8 @@ macro_rules! impl_struct_ops_alpha {
         }
 
         /// `px - px`
-        impl<T, A> SubAssign for $ty<T, A> where
+        impl<T, A> SubAssign for $ty<T, A>
+        where
             T: Sub<Output = T> + Copy,
             A: Sub<Output = A> + Copy
         {
@@ -169,7 +177,11 @@ macro_rules! impl_struct_ops_alpha {
             }
         }
 
-        impl<T, A> Sum<$ty<T, A>> for $ty<T, A> where T: Default + Add<Output=T>, A: Default + Add<Output=A> {
+        impl<T, A> Sum<$ty<T, A>> for $ty<T, A>
+        where
+            T: Default + Add<Output=T>,
+            A: Default + Add<Output=A>
+        {
             #[inline(always)]
             fn sum<I: Iterator<Item=Self>>(iter: I) -> Self {
                 iter.fold($ty::default(), Add::add)

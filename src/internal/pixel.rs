@@ -46,10 +46,7 @@ where
             // 底层指针类型: `*const T` 不可变常量指针, `*mut T` 可变指针, 可用于数据的读取和修改.
             //
             // 需注意生命周期管理
-            core::slice::from_raw_parts(
-                slice.as_ptr() as *const _,
-                slice.len() * core::mem::size_of::<T>(),
-            )
+            core::slice::from_raw_parts(slice.as_ptr() as *const _, std::mem::size_of_val(slice))
         }
     }
 
@@ -58,10 +55,7 @@ where
         let slice = self.as_mut_slice();
 
         unsafe {
-            core::slice::from_raw_parts_mut(
-                slice.as_ptr() as *mut _,
-                slice.len() * core::mem::size_of::<T>(),
-            )
+            core::slice::from_raw_parts_mut(slice.as_ptr() as *mut _, std::mem::size_of_val(slice))
         }
     }
 }

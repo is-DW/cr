@@ -15,10 +15,10 @@ impl<T> From<(T, T, T)> for RGB<T> {
     }
 }
 
-impl<T> Into<(T, T, T)> for RGB<T> {
+impl<T> From<RGB<T>> for (T, T, T) {
     #[inline]
-    fn into(self) -> (T, T, T) {
-        (self.r, self.g, self.b)
+    fn from(val: RGB<T>) -> Self {
+        (val.r, val.g, val.b)
     }
 }
 
@@ -34,10 +34,10 @@ impl<T, A> From<(T, T, T, A)> for RGBA<T, A> {
     }
 }
 
-impl<T, A> Into<(T, T, T, A)> for RGBA<T, A> {
+impl<T, A> From<RGBA<T, A>> for (T, T, T, A) {
     #[inline]
-    fn into(self) -> (T, T, T, A) {
-        (self.r, self.g, self.b, self.a)
+    fn from(val: RGBA<T, A>) -> Self {
+        (val.r, val.g, val.b, val.a)
     }
 }
 
@@ -52,10 +52,10 @@ impl<T> From<(T, T, T)> for BGR<T> {
     }
 }
 
-impl<T> Into<(T, T, T)> for BGR<T> {
+impl<T> From<BGR<T>> for (T, T, T) {
     #[inline(always)]
-    fn into(self) -> (T, T, T) {
-        (self.b, self.g, self.r)
+    fn from(val: BGR<T>) -> Self {
+        (val.b, val.g, val.r)
     }
 }
 
@@ -71,10 +71,10 @@ impl<T, A> From<(T, T, T, A)> for BGRA<T, A> {
     }
 }
 
-impl<T, A> Into<(T, T, T, A)> for BGRA<T, A> {
+impl<T, A> From<BGRA<T, A>> for (T, T, T, A) {
     #[inline(always)]
-    fn into(self) -> (T, T, T, A) {
-        (self.b, self.g, self.r, self.a)
+    fn from(val: BGRA<T, A>) -> Self {
+        (val.b, val.g, val.r, val.a)
     }
 }
 

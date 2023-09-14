@@ -1,5 +1,6 @@
 #[cfg(feature = "argb")]
 use crate::alt::ARGB;
+
 use crate::alt::{BGR, BGRA};
 use crate::{RGB, RGBA};
 
@@ -14,10 +15,10 @@ impl<T: Copy> From<[T; 3]> for RGB<T> {
     }
 }
 
-impl<T> Into<[T; 3]> for RGB<T> {
+impl<T> From<RGB<T>> for [T; 3] {
     #[inline(always)]
-    fn into(self) -> [T; 3] {
-        [self.r, self.g, self.b]
+    fn from(val: RGB<T>) -> Self {
+        [val.r, val.g, val.b]
     }
 }
 
@@ -33,10 +34,10 @@ impl<T: Copy> From<[T; 4]> for RGBA<T> {
     }
 }
 
-impl<T> Into<[T; 4]> for RGBA<T> {
+impl<T> From<RGBA<T>> for [T; 4] {
     #[inline(always)]
-    fn into(self) -> [T; 4] {
-        [self.r, self.g, self.b, self.a]
+    fn from(val: RGBA<T>) -> Self {
+        [val.r, val.g, val.b, val.a]
     }
 }
 
@@ -72,10 +73,10 @@ impl<T: Copy> From<[T; 3]> for BGR<T> {
     }
 }
 
-impl<T> Into<[T; 3]> for BGR<T> {
+impl<T> From<BGR<T>> for [T; 3] {
     #[inline(always)]
-    fn into(self) -> [T; 3] {
-        [self.b, self.g, self.r]
+    fn from(val: BGR<T>) -> Self {
+        [val.b, val.g, val.r]
     }
 }
 
@@ -91,10 +92,10 @@ impl<T: Copy> From<[T; 4]> for BGRA<T> {
     }
 }
 
-impl<T> Into<[T; 4]> for BGRA<T> {
+impl<T> From<BGRA<T>> for [T; 4] {
     #[inline(always)]
-    fn into(self) -> [T; 4] {
-        [self.b, self.g, self.r, self.a]
+    fn from(val: BGRA<T>) -> Self {
+        [val.b, val.g, val.r, val.a]
     }
 }
 

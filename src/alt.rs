@@ -272,6 +272,7 @@ impl<T: Copy, A: Copy, B> ColorComponentMap<GrayAlpha<B, A>, T, B> for GrayAlpha
 }
 
 impl<T> ComponentSlice<T> for GrayAlpha<T> {
+    /// GrayAlpha 有两个elements, T, TA; 因此是2
     #[inline(always)]
     fn as_slice(&self) -> &[T] {
         unsafe { slice::from_raw_parts(self as *const Self as *const T, 2) }

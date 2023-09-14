@@ -52,12 +52,16 @@ as_pixels_impl! {RGB, 3}
 as_pixels_impl! {RGBA, 4}
 as_pixels_impl! {BGR, 3}
 as_pixels_impl! {BGRA, 4}
+
 #[cfg(feature = "grb")]
 as_pixels_impl! {GRB, 3}
+
 as_pixels_impl! {Gray, 1}
 as_pixels_impl! {GrayAlpha, 2}
+
 #[cfg(feature = "argb")]
 as_pixels_impl! {ARGB, 4}
+
 #[cfg(feature = "argb")]
 as_pixels_impl! {ABGR, 4}
 
@@ -194,14 +198,18 @@ impl<T: Copy> FromSlice<T> for [T] {
 #[inline(always)]
 unsafe fn from_items_to_struct<F, T>(from: &[F]) -> &[T] {
     debug_assert_eq!(0, mem::size_of::<T>() % mem::size_of::<F>());
+
     let len = from.len() / (mem::size_of::<T>() / mem::size_of::<F>());
+
     slice::from_raw_parts(from.as_ptr() as *const T, len)
 }
 
 #[inline(always)]
 unsafe fn from_items_to_struct_mut<F, T>(from: &mut [F]) -> &mut [T] {
     debug_assert_eq!(0, mem::size_of::<T>() % mem::size_of::<F>());
+
     let len = from.len() / (mem::size_of::<T>() / mem::size_of::<F>());
+
     slice::from_raw_parts_mut(from.as_mut_ptr() as *mut T, len)
 }
 
@@ -275,17 +283,22 @@ macro_rules! reorder_impl_from {
 
 #[cfg(feature = "argb")]
 reorder_impl_from!(@rgba RGBA, ARGB);
+
 #[cfg(feature = "argb")]
 reorder_impl_from!(@rgba ABGR, ARGB);
+
 #[cfg(feature = "argb")]
 reorder_impl_from!(@rgba BGRA, ARGB);
+
 #[cfg(feature = "argb")]
 reorder_impl_from!(@rgba BGRA, ABGR);
 
 reorder_impl_from!(@rgb RGB, BGR);
 reorder_impl_from!(@rgba BGRA, RGBA);
+
 #[cfg(feature = "argb")]
 reorder_impl_from!(@rgba ABGR, RGBA);
+
 #[cfg(feature = "grb")]
 reorder_impl_from!(@rgb RGB, GRB);
 
@@ -384,13 +397,13 @@ impl<T> AsMut<T> for GrayAlpha<T> {
 #[test]
 fn argb_converts() {
     let argb = ARGB {
-        a: 0xffu8,
+        a: 0xff_u8,
         r: 0xff,
         g: 0xff,
         b: 0xff,
     };
     let rgba = RGBA {
-        a: 0xffu8,
+        a: 0xff_u8,
         r: 0xff,
         g: 0xff,
         b: 0xff,
@@ -400,13 +413,13 @@ fn argb_converts() {
     assert_eq!(ARGB::from(rgba), argb);
 
     let bgra = BGRA {
-        a: 0xffu8,
+        a: 0xff_u8,
         r: 0xff,
         g: 0xff,
         b: 0xff,
     };
     let abgr = ABGR {
-        a: 0xffu8,
+        a: 0xff_u8,
         r: 0xff,
         g: 0xff,
         b: 0xff,
@@ -428,114 +441,146 @@ fn converts() {
         [GrayAlpha::new(1, 2), GrayAlpha::new(3, 4)]
     );
 
-    assert_eq!(RGBA::new(1u8, 2, 3, 255), RGB::new(1u8, 2, 3).into());
-    assert_eq!(RGBA::new(1u16, 2, 3, 65535), RGB::new(1u16, 2, 3).into());
+    assert_eq!(RGBA::new(1_u8, 2, 3, 255), RGB::new(1_u8, 2, 3).into());
+    assert_eq!(RGBA::new(1_u16, 2, 3, 65535), RGB::new(1_u16, 2, 3).into());
     assert_eq!(
         BGRA {
-            r: 1u8,
-            g: 2u8,
-            b: 3u8,
-            a: 255u8
+            r: 1_u8,
+            g: 2_u8,
+            b: 3_u8,
+            a: 255_u8
         },
         BGR {
-            r: 1u8,
-            g: 2u8,
-            b: 3u8
+            r: 1_u8,
+            g: 2_u8,
+            b: 3_u8
         }
         .into()
     );
     assert_eq!(
         BGRA {
-            r: 1u8,
-            g: 2u8,
-            b: 3u8,
-            a: 255u8
+            r: 1_u8,
+            g: 2_u8,
+            b: 3_u8,
+            a: 255_u8
         },
         RGB {
-            r: 1u8,
-            g: 2u8,
-            b: 3u8
+            r: 1_u8,
+            g: 2_u8,
+            b: 3_u8
         }
         .into()
     );
     assert_eq!(
         RGBA {
-            r: 1u8,
+            r: 1_u8,
             g: 2,
             b: 3,
-            a: 4u8
+            a: 4_u8
         },
         BGRA {
-            r: 1u8,
-            g: 2u8,
-            b: 3u8,
-            a: 4u8
+            r: 1_u8,
+            g: 2_u8,
+            b: 3_u8,
+            a: 4_u8
         }
         .into()
     );
     assert_eq!(
         BGR {
-            r: 1u8,
+            r: 1_u8,
             g: 2,
-            b: 3u8
+            b: 3_u8
         },
         RGB {
-            r: 1u8,
+            r: 1_u8,
             g: 2,
-            b: 3u8
+            b: 3_u8
         }
         .into()
     );
     assert_eq!(
         RGB {
-            r: 1u16,
+            r: 1_u16,
             g: 0x5678,
-            b: 0xABCDu16
+            b: 0xABCD_u16
         },
         BGR {
-            r: 1u16,
+            r: 1_u16,
             g: 0x5678,
-            b: 0xABCDu16
+            b: 0xABCD_u16
         }
         .into()
     );
     assert_eq!(
         BGR {
-            r: 0x1234567u32,
+            r: 0x1234567_u32,
             g: 2,
-            b: 3u32
+            b: 3_u32
         },
         RGB {
-            r: 0x1234567u32,
+            r: 0x1234567_u32,
             g: 2,
-            b: 3u32
+            b: 3_u32
         }
         .into()
     );
 
     assert_eq!(
-        &[1u8, 2, 3, 4],
+        &[1_u8, 2, 3, 4],
         RGBA {
-            r: 1u8,
+            r: 1_u8,
             g: 2,
             b: 3,
-            a: 4u8
+            a: 4_u8
         }
         .as_slice()
     );
     assert_eq!(
-        &[1u8, 2, 3, 4],
+        &[1_u8, 2, 3, 4],
         RGBA {
-            r: 1u8,
+            r: 1_u8,
             g: 2,
             b: 3,
-            a: 4u8
+            a: 4_u8
         }
         .as_ref()
     );
-    assert_eq!(&[1u8, 2, 3], RGB { r: 1u8, g: 2, b: 3 }.as_slice());
-    assert_eq!(&[1u8, 2, 3], RGB { r: 1u8, g: 2, b: 3 }.as_ref());
+    assert_eq!(
+        &[1u8, 2, 3],
+        RGB {
+            r: 1_u8,
+            g: 2,
+            b: 3
+        }
+        .as_slice()
+    );
+    assert_eq!(
+        &[1u8, 2, 3],
+        RGB {
+            r: 1_u8,
+            g: 2,
+            b: 3
+        }
+        .as_ref()
+    );
 
-    assert_eq!(&[1u8, 2, 3], RGB { r: 1u8, g: 2, b: 3 }.as_mut_slice());
-    assert_eq!(&[1u8, 2, 3], RGB { r: 1u8, g: 2, b: 3 }.as_mut());
+    assert_eq!(
+        &[1u8, 2, 3],
+        RGB {
+            r: 1_u8,
+            g: 2,
+            b: 3
+        }
+        .as_mut_slice()
+    );
+    assert_eq!(
+        &[1u8, 2, 3],
+        RGB {
+            r: 1_u8,
+            g: 2,
+            b: 3
+        }
+        .as_mut()
+    );
 }
