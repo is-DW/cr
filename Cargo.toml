@@ -4,12 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+default = ["as-bytes"]
+# as-bytes features 需要依赖 crate bytemuck
+as-bytes = ["bytemuck"]
 argb = []
 grb = []
 
 [package.metadata.docs.rs]
-all-features = true
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+features = ["argb", "as-bytes"]
 
 [dependencies]
+bytemuck = { version = "1.14.0", optional = true }

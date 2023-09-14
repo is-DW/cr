@@ -2,6 +2,20 @@
 #[allow(clippy::upper_case_acronyms)]
 pub mod alt;
 
+#[cfg(feature = "as-bytes")]
+pub use bytemuck::Pod;
+/// Re-export from `bytemuck` crate
+#[cfg(feature = "as-bytes")]
+pub use bytemuck::Zeroable;
+
+mod internal {
+    pub mod convert;
+    pub mod ops;
+    pub mod pixel;
+    pub mod rgb;
+    pub mod rgba;
+}
+
 #[derive(Copy, Clone, Debug, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct RGB<T> {
     /// Red
